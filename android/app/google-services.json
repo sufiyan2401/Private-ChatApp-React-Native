@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "271710536494",
+    "project_id": "assignment-6-f146b",
+    "storage_bucket": "assignment-6-f146b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:271710536494:android:a3fd0c4dc7481f3d29f0bf",
+        "android_client_info": {
+          "package_name": "com.ytchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "271710536494-l90s17b38gj72n4e35pep88hmiscjlc9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiw8V3nzv9GBR75sbO5Ef7C0FS0uBKUDo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "271710536494-l90s17b38gj72n4e35pep88hmiscjlc9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
