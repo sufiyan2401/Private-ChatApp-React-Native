@@ -26,6 +26,7 @@ export default function HomeScreen({user,navigation}) {
             })}>
               <View style={styles.mycard}>
                   {/* <Image source={{uri:item.pic}} style={styles.img}/> */}
+                  <Button icon="account" style={styles.img} />
                   <View>
                       <Text style={styles.text}>
                           {item.name}

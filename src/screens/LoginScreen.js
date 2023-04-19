@@ -48,8 +48,9 @@ export default function SignupScreen({navigation}) {
                  <Button
                 mode="contained"
                 onPress={()=>userLogin()}
+                disabled={!email || !password}
                 >Login</Button>
-                <TouchableOpacity onPress={()=>navigation.navigate('signup')}><Text style={{textAlign:"center"}}>Dont have an account ?</Text></TouchableOpacity>
+                <TouchableOpacity onPress={()=>navigation.navigate('signup')}><Text style={{textAlign:"center" , color:"black"}}>Dont have an account ?</Text></TouchableOpacity>
                
             </View>
         </KeyboardAvoidingView>

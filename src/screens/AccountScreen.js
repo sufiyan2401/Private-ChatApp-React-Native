@@ -45,7 +45,7 @@ export default function AccountScreen({user}) {
 const styles = StyleSheet.create({
     container:{
         flex:1,
-        backgroundColor:"#00ff00",
+        backgroundColor:"black",
         alignItems:"center",
         justifyContent:"space-evenly"
     },
@@ -62,6 +62,7 @@ const styles = StyleSheet.create({
     },
     btn:{
         borderColor:"white",
+        backgroundColor:'black',
         borderWidth:3
     }
 })
