@@ -48,16 +48,7 @@ export default function HomeScreen({user,navigation}) {
             />
            <Button icon="account" style={{fontSize:60}} onPress={() => navigation.navigate("account")}>
   See Acount Info
-</Button>
-
-
-             {/* <FAB
-                style={styles.fab}
-                // icon="face-profile"
-                color="black"
-                onPress={() => navigation.navigate("account")}
-            /> */}
-            
+</Button>            
         </View>
     )
 }

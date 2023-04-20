@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { View, Text, Image, StyleSheet, KeyboardAvoidingView, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { TextInput, Button } from 'react-native-paper';
@@ -6,24 +5,31 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
-
 export default function SignupScreen({ navigation }) {
-    
+
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
-     // const [image,setImage] = useState(null)
     const [showNext, setShowNext] = useState(false)
     const [loading, setLoading] = useState(false)
-    if (loading) {
-        return <ActivityIndicator size="large" color="#00ff00" />
-    }
+    const [error, setError] = useState('')
+    // if (loading) {
+    //     return <ActivityIndicator size="large" color="#00ff00" />
+    // }
     const userSignup = async () => {
         setLoading(true)
         if (!email || !password || !name) {
             alert("please add all the field")
             return
         }
+        if (password.length < 6) {
+            setError("Password Must Be Greater Than 6 Digits")
+        }
+        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)){
+            setError("")
+        }
+
+
         try {
             const result = await auth().createUserWithEmailAndPassword(email, password)
             firestore().collection('users').doc(result.user.uid).set({
@@ -35,7 +41,10 @@ export default function SignupScreen({ navigation }) {
             })
             setLoading(false)
         } catch (err) {
-            alert("something went wrong")
+            setLoading(false)
+            setError("something Went Wrong/")
+            // setError("error:",err)
+            // setError(err)
         }
 
 
@@ -69,52 +78,54 @@ export default function SignupScreen({ navigation }) {
                 <Image style={styles.img} source={require('../assets/wa.png')} />
             </View>
             <View style={styles.box2}>
+                <Text style={{color:'black',marginLeft:120}}>Signup Here !</Text>
+
                 {!showNext &&
                     <>
+                    <View style={{marginTop:20}}>
                         <TextInput
                             label="Email"
                             value={email}
                             onChangeText={(text) => setEmail(text)}
                             mode="outlined"
-                        />
+                            placeholder='test@gmail.com'
+                            disabled={loading}
+                            />
+                        </View>
+                        <View style={{marginTop:40}}>
                         <TextInput
                             label="password"
                             mode="outlined"
                             value={password}
                             onChangeText={(text) => setPassword(text)}
                             secureTextEntry
-                        />
-                    </>
-                }
-
-                {showNext ?
-                    <>
+                            disabled={loading}
+                            />
+                        <Text style={{color:'black'}}>Password Must Be Greater Than 6digits</Text>
+                        </View>
+                        <View style={{marginTop:40}}>
                         <TextInput
                             label="Name"
                             value={name}
                             onChangeText={(text) => setName(text)}
                             mode="outlined"
-                        />
-                        {/* <Button
-                mode="contained"
-                onPress={()=>pickImageAndUpload()}
-                >select profile pic</Button> */}
-                        <Button
+                            disabled={loading}
+                            />
+                        </View>
+                        <View style={{marginTop:40}}>
+                        {loading ? <ActivityIndicator size="large" color="#00ff00" /> :  <Button
                             mode="contained"
-                            disabled={!email || !password || !name}
+                            disabled={!email || !password || !name ||password.length<6 || loading || !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) }
                             // disabled={image?false:true}
                             onPress={() => userSignup()}
-                        >Signup</Button>
+                        >Signup</Button>  }
+                        </View>
                     </>
-                    :
-                    <Button
-                        mode="contained"
-                        onPress={() => setShowNext(true)}
-                        disabled={!email || !password}
-                    >Signup</Button>
                 }
-
-                <TouchableOpacity onPress={() => navigation.goBack()}><Text style={{ textAlign: "center", color: 'black' }}>Already have an account ?</Text></TouchableOpacity>
+            
+                <TouchableOpacity onPress={() => navigation.goBack()}><Text style={{ textAlign: "center", color: 'black',marginTop:20 }}>Already have an account ?</Text></TouchableOpacity>
+                <Text style={{color:'black', display:'flex', alignItems:'center' , marginTop:20, marginLeft:100}}>{error}</Text>
+                
             </View>
         </KeyboardAvoidingView>
     )
