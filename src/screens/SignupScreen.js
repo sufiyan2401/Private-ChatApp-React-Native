@@ -49,28 +49,6 @@ export default function SignupScreen({ navigation }) {
 
 
     }
-    const pickImageAndUpload = () => {
-        launchImageLibrary({ quality: 0.5 }, (fileobj) => {
-
-            const uploadTask = storage().ref().child(`/userprofile/${Date.now()}`).putFile(fileobj.uri)
-            uploadTask.on('state_changed',
-                (snapshot) => {
-
-                    var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                    if (progress == 100) alert('image uploaded')
-
-                },
-                (error) => {
-                    alert("error uploading image")
-                },
-                () => {
-                    uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-                        setImage(downloadURL)
-                    });
-                }
-            );
-        })
-    }
     return (
         <KeyboardAvoidingView behavior="position">
             <View style={styles.box1}>
@@ -123,7 +101,7 @@ export default function SignupScreen({ navigation }) {
                     </>
                 }
             
-                <TouchableOpacity onPress={() => navigation.goBack()}><Text style={{ textAlign: "center", color: 'black',marginTop:20 }}>Already have an account ?</Text></TouchableOpacity>
+                {/* <TouchableOpacity onPress={() => navigation.goBack()}><Text style={{ textAlign: "center", color: 'black',marginTop:40 }}>Already have an account ?</Text></TouchableOpacity> */}
                 <Text style={{color:'black', display:'flex', alignItems:'center' , marginTop:20, marginLeft:100}}>{error}</Text>
                 
             </View>
