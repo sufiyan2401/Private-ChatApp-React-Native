@@ -18,28 +18,28 @@ export default  function HomeScreen({ user, navigation }) {
     const [info , setInfo] = useState("")
     const [unit , setUnit] = useState("")
     const [unread,setUnread] = useState(0)
-    const getunread =async() =>{
-        firestore().collection("chatrooms")
-    .get()
-    .then((querySnapshot) => {
-        // console.log("querysnap" , querySnapshot)
-        querySnapshot.forEach((doc) => {
-            // console.log("doc" , doc.data())
-            // setUnit(doc.data())
-                const unreadCounts = doc.data().unreadCounts;
-                const uid = Object.keys(unreadCounts)[0];
-                const unreadmessages = unreadCounts[uid];
-                    // console.log(`uid: ${uid}, unread messages: ${unreadmessages}`);
-                    setUnit(uid)
-                    setUnread(unreadmessages)
-        });
-    }) 
-    .catch((error) => {
-        console.warn("Error getting documents: ", error);
-    });
+    const getunread = async () => {
+        const unsubscribe = firestore()
+          .collection('chatrooms')
+          .onSnapshot((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+              const unreadCounts = doc.data().unreadCounts;
+              const uid = Object.keys(unreadCounts)[0];
+              const unreadmessages = unreadCounts[uid];
+              setUnit(uid);
+              setUnread(unreadmessages);
+            });
+          });
+        
+        return () => unsubscribe();
+      };
+    //   useEffect(() => {
+        getunread()
+        // const unsubscribe = getunread();
       
-    }
-        getunread();
+        // return () => unsubscribe();
+    //   }, []);
+        // getunread();
     const getUsers = async () => {
         const querySanp = await firestore().collection('users').where('uid', '!=', user.uid).get 
         ()
@@ -72,39 +72,10 @@ export default  function HomeScreen({ user, navigation }) {
                   <Text style={{ fontSize: 18 , color:'white'}}>{item.name}</Text>
                   <Text style={{ fontSize: 18, color:'white' }}>{item.email}</Text>
                 </View>
-                {/* {console.warn(unread)} */}
-  {unit == item.uid ? null:<UnreadMessagesIcon count={unread} /> }
-                
+  {unit == item.uid ? null:<UnreadMessagesIcon count={unread} /> }       
               </View>
               </TouchableOpacity>
         )
-        // return(
-        // )
-        // if(unit==item.uid){
-        // }
-        // return (
-        //     // <TouchableOpacity onPress={()=>{navigation.navigate('chat')}}>
-        //     <TouchableOpacity onPress={() => navigation.navigate('chat', {
-        //         name: item.name, uid: item.uid,
-        //         status: typeof (item.status) == "string" ? item.status : item.status.toDate().toString()
-        //     })}>
-        //         <View style={styles.mycard}>
-        //             {/* <Image source={{uri:item.pic}} style={styles.img}/> */}
-        //             {/* <Button icon="account" style={styles.img} /> */}
-        //             <View>
-        //                 <Text style={styles.text}>
-        //                     {item.name}
-        //                 </Text>
-        //                 {/* {unit == item.uid ? <Text>0</Text> : <Text>{unread}</Text>} */}
-        //                 <Text style={styles.text}>
-        //                     {item.email}
-        //                 </Text>
-
-        //             </View>
-        //         </View>
-        //     </TouchableOpacity>
-        // )
-        // setInfo(item.uid)
     }
     return (
         <View style={{ flex: 1 }}>

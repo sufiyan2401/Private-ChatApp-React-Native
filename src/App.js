@@ -60,22 +60,22 @@ const Navigation = () => {
             <Stack.Screen
               name="home"
               options={{
-                // headerRight:()=><MaterialIcons
-                // name="account-circle"
-                // size={34}
-                // color="green"
-                // style={{marginRight:10}}
-                // onPress={()=>{
-                //   firestore().collection('users')
-                //   .doc(user.uid)
-                //   .update({
-                //     status:firestore.FieldValue.serverTimestamp()
-                //   }).then(()=>{
-                //        auth().signOut()
-                //   })
+                headerRight:()=><MaterialIcons
+                name="account-circle"
+                size={34}
+                color="green"
+                style={{marginRight:10}}
+                onPress={()=>{
+                  firestore().collection('users')
+                  .doc(user.uid)
+                  .update({
+                    status:firestore.FieldValue.serverTimestamp()
+                  }).then(()=>{
+                       auth().signOut()
+                  })
 
-                // }}
-                // />,
+                }}
+                />,
                 title: 'WhatsApp',
               }}>
               {props => <HomeScreen {...props} user={user} />}
@@ -83,8 +83,9 @@ const Navigation = () => {
                
             <Stack.Screen
               name="chat"
+              style={styles.ada}
               options={({route}) => ({
-                title:route.params.name
+                title:route.params.name,
               })}>
                 {props => <ChatScreen {...props} user={user} />}
                 </Stack.Screen>
@@ -140,6 +141,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+
 });
 
 export default App;
