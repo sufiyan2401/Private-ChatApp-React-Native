@@ -100,7 +100,7 @@ const Navigation = () => {
                   </View>
                 ),
               })}> */}
-            <Stack.Screen name="account">
+            <Stack.Screen name="account" style={{backgroundColor:'green'}}>
               {props => <AccountScreen {...props} user={user} />}
             </Stack.Screen>
           </>

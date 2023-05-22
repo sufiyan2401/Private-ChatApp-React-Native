@@ -24,13 +24,14 @@
 // // Initialize Cloud Firestore and get a reference to the service
 // export const auth = getAuth()
 // export const db = getFirestore();
-import { initializeApp } from 'firebase/app';
+import firebase, { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
 // import Constants from 'expo-constants';
 // Firebase config
- const firebaseConfig = {
-    apiKey: "AIzaSyC4hh7tbxOvEWjeZ5e_uCYjaPu1mbnspeE",
+const firebaseConfig = {
+  apiKey: "AIzaSyC4hh7tbxOvEWjeZ5e_uCYjaPu1mbnspeE",
   authDomain: "assignment-6-f146b.firebaseapp.com",
   databaseURL: "https://assignment-6-f146b-default-rtdb.firebaseio.com",
   projectId: "assignment-6-f146b",
@@ -43,3 +44,4 @@ import { getFirestore } from 'firebase/firestore';
 initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const database = getFirestore();
+export const storage = getStorage();

@@ -22,13 +22,18 @@ export default  function HomeScreen({ user, navigation }) {
         const unsubscribe = firestore()
           .collection('chatrooms')
           .onSnapshot((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-              const unreadCounts = doc.data().unreadCounts;
-              const uid = Object.keys(unreadCounts)[0];
-              const unreadmessages = unreadCounts[uid];
-              setUnit(uid);
-              setUnread(unreadmessages);
-            });
+            if(!querySnapshot){
+                return ;
+            }
+            else{
+                querySnapshot.forEach((doc) => {
+                  const unreadCounts = doc.data().unreadCounts;
+                  const uid = Object.keys(unreadCounts)[0];
+                  const unreadmessages = unreadCounts[uid];
+                  setUnit(uid);
+                  setUnread(unreadmessages);
+                });
+            }
           });
         
         return () => unsubscribe();

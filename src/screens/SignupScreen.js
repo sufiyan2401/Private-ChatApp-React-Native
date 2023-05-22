@@ -5,6 +5,7 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import storage from '@react-native-firebase/storage'
 import auth from '@react-native-firebase/auth'
 import firestore from '@react-native-firebase/firestore'
+// import { launchImageLibrary } from 'react-native-image-picker'
 export default function SignupScreen({ navigation }) {
 
     const [email, setEmail] = useState('')
@@ -16,6 +17,34 @@ export default function SignupScreen({ navigation }) {
     // if (loading) {
     //     return <ActivityIndicator size="large" color="#00ff00" />
     // }
+    const ImageSelector = async() =>{
+        try {
+            // Launch image library to select an image
+            const image = await new Promise((resolve, reject) => {
+                launchImageLibrary({ mediaType: 'photo' }, response => {
+                    if (response.didCancel) {
+                        reject('Image selection cancelled');
+                    } else if (response.error) {
+                        reject(`Image picker error: ${response.error}`);
+                    } else {
+                        resolve(response.assets);
+                    }
+                });
+            });
+
+            // Check if image is available
+            if (!image[0].uri) {
+                throw new Error('No image selected');
+            }
+
+            // Set the selected image preview and show the modal
+            setSelectedImagePreview(image[0].uri);
+            setIsModalVisible(true);
+        } catch (error) {
+            console.error('Error selecting image:', error);
+            throw error;
+        }
+    }
     const userSignup = async () => {
         setLoading(true)
         if (!email || !password || !name) {
@@ -37,7 +66,7 @@ export default function SignupScreen({ navigation }) {
                 email: result.user.email,
                 uid: result.user.uid,
                 // pic:image,
-                status: "online"
+                status: "online"    
             })
             setLoading(false)
         } catch (err) {
@@ -90,6 +119,13 @@ export default function SignupScreen({ navigation }) {
                             disabled={loading}
                             />
                         </View>
+                        <Text>{'\n'}</Text>
+                        <Text>{'\n'}</Text>
+                        <Text>{'\n'}</Text>
+                        <Text>{'\n'}</Text>
+                        <Button icon="camera" mode="contained" onPress={ImageSelector}>
+            Pick a Image
+          </Button>
                         <View style={{marginTop:40}}>
                         {loading ? <ActivityIndicator size="large" color="#00ff00" /> :  <Button
                             mode="contained"
